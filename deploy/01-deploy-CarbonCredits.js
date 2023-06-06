@@ -5,9 +5,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deploy, log } = deployments;
   const { deployer } = await getNamedAccounts();
 
-  console.log(deployer);
   const _ownerAddress = process.env.ACCOUNT_ADDRESS;
-  console.log(_ownerAddress);
+  console.log("deployer: ", deployer);
 
   const carbonCredits = await deploy("CarbonCredits", {
     contract: "CarbonCredits",

@@ -15,8 +15,4 @@ contract SustainabilityCoin is
     constructor() ERC20("SustainabilityCoin", "SUSTAIN") {
         _mint(msgSender(), 21000000 * 10 ** decimals());
     }
-
-    function mint(address to, uint256 amount) public onlyOwner {
-        _mint(to, amount);
-    }
 }

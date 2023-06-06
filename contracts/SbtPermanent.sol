@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/utils/Base64.sol";
 import "./Institutes.sol";
 import "./CarbonCredits.sol";
 
-contract ProfessionalValidation is ERC721URIStorage, Institutes {
+contract SbtPermanent is ERC721URIStorage, Institutes {
     address private _owner;
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;

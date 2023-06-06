@@ -6,113 +6,18 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 import "./Institutes.sol";
+import "./CarbonCredits.sol";
 
-import {Functions, FunctionsClient} from "@chainlink/contracts/src/v0.8/dev/functions/FunctionsClient.sol"; // Once published
-import {ConfirmedOwner} from "@chainlink/contracts/src/v0.8/ConfirmedOwner.sol";
-
-contract ProfessionalValidation is
-    ERC721URIStorage,
-    Institutes,
-    FunctionsClient,
-    ConfirmedOwner
-{
+contract ProfessionalValidation is ERC721URIStorage, Institutes {
     address private _owner;
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
-    using Functions for Functions.Request;
-
-    bytes32 public latestRequestId;
-    bytes public latestResponse;
-    bytes public latestError;
-
-    uint32 public gasLimit = 250000;
-    uint64 public subscriptionId = 0;
-    string source =
-        string(
-            abi.encodePacked(
-                "let jsonObject = JSON.parse(args[0]);",
-                "const principalAmount = parseInt(jsonObject.carbon_credits);",
-                "return Functions.encodeUint256(Math.round(principalAmount));"
-            )
-        );
-
-    function setGasLimit(uint32 _gasLimit) public onlyAllOwner returns (bool) {
-        gasLimit = _gasLimit;
-        return true;
-    }
-
-    function setSubscriptionId(
-        uint64 _subscriptionId
-    ) public onlyAllOwner returns (bool) {
-        subscriptionId = _subscriptionId;
-        return true;
-    }
-
-    event OCRResponse(bytes32 indexed requestId, bytes result, bytes err);
+    CarbonCredits private _carbonCredits;
 
     constructor(
-        address oracle
-    )
-        ERC721("Convertible Carbon-Credits SBT", "CCCSBT")
-        FunctionsClient(oracle)
-        ConfirmedOwner(msg.sender)
-    {}
-
-    function executeRequest(
-        string memory source,
-        bytes memory secrets,
-        string[] memory args,
-        uint64 subscriptionId,
-        uint32 gasLimit
-    ) public onlyOwner returns (bytes32) {
-        Functions.Request memory req;
-        req.initializeRequest(
-            Functions.Location.Inline,
-            Functions.CodeLanguage.JavaScript,
-            source
-        );
-        if (secrets.length > 0) {
-            req.addRemoteSecrets(secrets);
-        }
-        if (args.length > 0) req.addArgs(args);
-
-        bytes32 assignedReqID = sendRequest(req, subscriptionId, gasLimit);
-        latestRequestId = assignedReqID;
-        return assignedReqID;
-    }
-
-    /**
-     * @notice Callback that is invoked once the DON has resolved the request or hit an error
-     *
-     * @param requestId The request ID, returned by sendRequest()
-     * @param response Aggregated response from the user code
-     * @param err Aggregated error from the user code or from the execution pipeline
-     * Either response or error parameter will be set, but never both
-     */
-    function fulfillRequest(
-        bytes32 requestId,
-        bytes memory response,
-        bytes memory err
-    ) internal override {
-        latestResponse = response;
-        latestError = err;
-        emit OCRResponse(requestId, response, err);
-    }
-
-    /**
-     * @notice Allows the Functions oracle address to be updated
-     *
-     * @param oracle New oracle address
-     */
-    function updateOracleAddress(address oracle) public onlyOwner {
-        setOracle(oracle);
-    }
-
-    function addSimulatedRequestId(
-        address oracleAddress,
-        bytes32 requestId
-    ) public onlyOwner {
-        addExternalRequest(oracleAddress, requestId);
+        address carbonCreditsAddress
+    ) ERC721("Convertible Carbon-Credits SBT", "CCCSBT") {
+        _carbonCredits = CarbonCredits(carbonCreditsAddress);
     }
 
     struct SBT {
@@ -230,13 +135,8 @@ contract ProfessionalValidation is
             "ERC721Burnable: caller is not owner nor approved"
         );
         string memory tokenData = tokenURI(tokenId);
-        string[] memory tokenArray = new string[](1);
-        tokenArray[0] = tokenData;
-
         // check if token is already burned
         require(bytes(tokenData).length > 0, "Token already burned");
-
-        executeRequest(source, "", tokenArray, subscriptionId, gasLimit);
 
         _burn(tokenId);
     }
