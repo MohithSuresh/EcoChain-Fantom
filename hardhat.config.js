@@ -18,12 +18,7 @@ module.exports = {
   networks: {
     hardhat: {
       chainId: 31337,
-      accounts: [
-        {
-          privateKey: PRIVATE_KEY,
-          balance: "10000000000000000000000", // optional
-        },
-      ],
+
       // gasPrice: 130000000000,
     },
 

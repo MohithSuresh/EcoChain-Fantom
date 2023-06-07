@@ -46,12 +46,6 @@ describe("Unit Tests", function () {
 
     //TESTING
     let carbonCreditsOwner = await carbonCredits.carbonCreditsOwner();
-    console.log(
-      " owner of CarbonCredits is ",
-      carbonCreditDEX.address,
-      "=",
-      carbonCreditsOwner
-    );
 
     //transfering tokens to each account     (using deployer as it has all initially minted Dense tokens)
     await sustainabilityCoin
@@ -67,7 +61,6 @@ describe("Unit Tests", function () {
     //TESTING
     let addr1Balance = await sustainabilityCoin.balanceOf(addr1.address);
     let deployerbalance = await sustainabilityCoin.balanceOf(deployer.address);
-    console.log("addr1 balance is ", addr1Balance);
 
     //transfering tokens to DEX initially
     // await sustainabilityCoin
@@ -78,7 +71,6 @@ describe("Unit Tests", function () {
     let dexBalance = await sustainabilityCoin.balanceOf(
       carbonCreditDEX.address
     );
-    console.log("carbonCreditDEX balance is ", dexBalance);
 
     //approving DEX to spend tokens
     await sustainabilityCoin
@@ -96,8 +88,6 @@ describe("Unit Tests", function () {
       deployer.address,
       carbonCreditDEX.address
     );
-    console.log("Allowance is ", allowed);
-    console.log("deployer balance =", deployerbalance);
 
     //creating new player
     await carbonCreditDEX.connect(deployer).createNewIndustry(
@@ -251,12 +241,6 @@ describe("Unit Tests", function () {
         let previousReserveBalance = await carbonCreditDEX.reserveBalances(id);
 
         //TESTING
-        console.log(
-          "The balance now is ",
-          previousReserveBalance.toLocaleString("fullwide", {
-            useGrouping: false,
-          })
-        );
 
         //calling buy function
         let txResponse = await carbonCreditDEX.buy(
@@ -267,27 +251,12 @@ describe("Unit Tests", function () {
         );
         let txReceipt = await txResponse.wait();
 
-        console.log("txReceipt:", txReceipt);
-        console.log(
-          "txReceiptAnswer",
-          parseInt(txReceipt.logs[2].data.toString().slice(-63), 16)
-        ); //the last 64 characters of the data string is the answer.
-
         let newValue = await carbonCreditDEX.amount();
-        console.log("newValue:", newValue);
-        console.log("carbonCredits:", carbonCredits.address);
 
         //getting new reserve balance
         let newReserveBalance = await carbonCreditDEX.reserveBalances(id);
 
         //TESTING
-        console.log(
-          "balance = ",
-          newReserveBalance.toLocaleString("fullwide", { useGrouping: false })
-        ) -
-          previousReserveBalance.toLocaleString("fullwide", {
-            useGrouping: false,
-          });
 
         //checking if the difference between the two is equal to the deposit amount
         assert.equal(
@@ -354,7 +323,6 @@ describe("Unit Tests", function () {
         await loadFixture(deployFixtures);
 
         //TESTING
-        console.log("Id =", id);
 
         //getting the number of player tokens that can be bought from the _depositAmount
         let _buyNumber = await carbonCreditDEX.calculatePurchaseReturn(
@@ -363,11 +331,10 @@ describe("Unit Tests", function () {
         );
 
         //TESTING
-        console.log("_buyNumber =", _buyNumber);
+
         let _supply = await carbonCredits.totalSupply(id);
-        console.log("_supply =", _supply);
+
         let _balance = await carbonCreditDEX.reserveBalances(id);
-        console.log("_balance =", _balance);
 
         //calculating the deposit amount from Formula by inputing the _buyNumber calculated above
         let amountFromCalculation =
@@ -390,7 +357,6 @@ describe("Unit Tests", function () {
 
         //TESTING
         let _balance = await carbonCredits.balanceOf(addr1.address, id);
-        console.log("balance before buying", _balance);
 
         let valueFromCalculation =
           await carbonCreditDEX.calculatePurchaseReturn(
@@ -408,8 +374,6 @@ describe("Unit Tests", function () {
 
         //TESTING
         _balance = await carbonCredits.balanceOf(addr1.address, id);
-        console.log("balance before burning", _balance);
-        console.log("valueFromCalculation", valueFromCalculation);
 
         let newSellAmount = valueFromCalculation;
 
@@ -429,7 +393,6 @@ describe("Unit Tests", function () {
 
         //TESTING
         let _balance = await carbonCredits.balanceOf(addr1.address, id);
-        console.log("balance before buying", _balance);
 
         let valueFromCalculation =
           await carbonCreditDEX.calculatePurchaseReturn(
@@ -447,8 +410,6 @@ describe("Unit Tests", function () {
 
         //TESTING
         _balance = await carbonCredits.balanceOf(addr1.address, id);
-        console.log("balance before burning", _balance);
-        console.log("valueFromCalculation", valueFromCalculation);
 
         let newSellAmount = valueFromCalculation;
 
@@ -462,7 +423,6 @@ describe("Unit Tests", function () {
         );
 
         _balance = await carbonCredits.balanceOf(addr1.address, id);
-        console.log("balance after burning", _balance);
 
         assert.equal(_balance, 0);
       });
@@ -496,12 +456,6 @@ describe("Unit Tests", function () {
         let previousReserveBalance = await carbonCreditDEX.reserveBalances(id);
 
         //TESTING
-        console.log(
-          "The balance now is ",
-          previousReserveBalance.toLocaleString("fullwide", {
-            useGrouping: false,
-          })
-        );
 
         //calling sell function
         await carbonCreditDEX
@@ -524,21 +478,9 @@ describe("Unit Tests", function () {
         let newReserveBalance = await carbonCreditDEX.reserveBalances(id);
 
         //TESTING
-        console.log(
-          "balance = ",
-          newReserveBalance.toLocaleString("fullwide", {
-            useGrouping: false,
-          })
-        );
 
         //getting the amount transfered to seller from contract
         let valueFromContract = await carbonCreditDEX.amount();
-        console.log(
-          "Value from Contract = ",
-          valueFromContract.toLocaleString("fullwide", {
-            useGrouping: false,
-          })
-        );
 
         //valueFromContract = previousReserveBalance - newReserveBalance
         await assert.equal(
@@ -554,7 +496,6 @@ describe("Unit Tests", function () {
 
         //TESTING
         let _balance = await carbonCredits.balanceOf(addr1.address, id);
-        console.log("balance before buying", _balance);
 
         //calling buy function to have some balance of tokens
         carbonCreditDEX.buy(
@@ -566,7 +507,6 @@ describe("Unit Tests", function () {
 
         //TESTING
         _balance = await carbonCredits.balanceOf(addr1.address, id);
-        console.log("balance before burning", _balance);
 
         //checking Transfer event from sustainabilityCoin
         await expect(
@@ -618,7 +558,6 @@ describe("Unit Tests", function () {
         let valueFromContract = await carbonCreditDEX.getRating(id);
 
         //TESTING
-        console.log("rating value from contract = ", valueFromContract);
 
         //since currently DUMMY LOGIC is used for rating, we are hardcoding the value
         let _rating = 10;
@@ -642,8 +581,6 @@ describe("Unit Tests", function () {
         let _price = (_reserveBalance * 1e18) / (_supply * rr);
 
         //TESTING
-        console.log("_reserveBalance = ", _reserveBalance);
-        console.log("supply = ", _supply);
 
         let valueFromContract = await carbonCreditDEX.getPrice(id);
 
@@ -708,13 +645,6 @@ describe("Unit Tests", function () {
         let _balance2 = await carbonCredits.balanceOf(deployer.address, id);
 
         //TESTING
-        console.log("getPortfoliosOfBatch is successful");
-        console.log("portfolio = ", valueFromContract);
-        console.log(
-          "deployer balance id=2 and id=3 are ",
-          _balance1,
-          _balance2
-        );
 
         assert.equal(
           valueFromContract[0].toLocaleString("fullwide", {

@@ -46,16 +46,13 @@ contract CarbonCreditDEX is
         uint32 rr,
         bytes memory data
     ) public onlyOwner {
-        console.log(initialSupply, initialPrice, rr);
         reserveBalances[id] = (initialSupply * initialPrice * rr) / 1e18;
         //(1 * 10 ** 18);
-        console.log("reserve Balances =", reserveBalances[id]);
         IERC20(sustainabilityCoin).transferFrom(
             msgSender(),
             address(this),
             reserveBalances[id]
         );
-        console.log("transfered");
         carbonCredits.mint(owner, id, initialSupply, data);
         tokenDetails[id] = TokenDetails(rr, fee, initialSupply);
     }
@@ -73,12 +70,7 @@ contract CarbonCreditDEX is
             address(this),
             _depositAmount
         );
-        console.log(
-            carbonCredits.totalSupply(id),
-            reserveBalances[id],
-            tokenDetails[id].RESERVE_RATIO,
-            _depositAmount
-        );
+
         uint256 _number = _calculatePurchaseReturn(
             carbonCredits.totalSupply(id),
             reserveBalances[id],
@@ -86,12 +78,11 @@ contract CarbonCreditDEX is
             _depositAmount
         );
         reserveBalances[id] += _depositAmount; //msg.value in case of native currency
-        console.log("computed return amount", _number);
+
         carbonCredits.mint(to, id, _number, data);
         amount = _number; //TODO Remove later
 
         //TESTING
-        console.log("buy successful");
     }
 
     function calculatePurchaseReturn(

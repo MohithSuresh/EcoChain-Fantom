@@ -357,7 +357,7 @@ contract BancorFormula {
         uint256 _depositAmount
     ) public view returns (uint256) {
         // validate input
-        console.log("checking initial conditions");
+
         require(
             _supply > 0 &&
                 _connectorBalance > 0 &&
