@@ -10,13 +10,15 @@ import { Routes, Route } from "react-router-dom";
 import { useConnect, useAccount } from "wagmi";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 import { useLocation } from 'react-router-dom';
+import { ethers } from 'ethers';
+
 
 function App() {
   const { address, isConnected } = useAccount();
   const { connect } = useConnect({
     connector: new MetaMaskConnector(),
   });
-
+  
   const location = useLocation();
 
   return (

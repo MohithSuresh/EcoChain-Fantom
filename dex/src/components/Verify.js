@@ -23,6 +23,7 @@ const VerifyOrganizationForm = (props) => {
   const [toMintSBT,  setToMintSBT] = useState(false);
   const [toMintCarbon, setToMintCarbon] = useState(false);
   const [MintingCarbon, setMintingCarbon] = useState(false);
+  const [CategoryId, SetCategoryId] = useState(0);
 
   const handleCarbonCreditChange = (e) =>{
     setCarbonCredit(e.target.value);
@@ -32,23 +33,47 @@ const VerifyOrganizationForm = (props) => {
     setOrganization(e.target.value);
   };
 
-  const handleCategoryChange = (e) => {
+  const handleCategoryChange =  (e) => {
+    console.log("1", e.target.value);
     setCategory(e.target.value);
+    compareCategory(e.target.value)
+    console.log("2", category);
   };
 
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
+    console.log(description)
   };
-
-  // const handleImageChange = (e) => {
-  //   setImage(e.target.files[0]);
-  // };
 
   const handleCertificateChange = (e) => {
     setCertificate(e.target.files[0]);
   };
 
+  function compareCategory(category){
+
+    if (category === "Waste Management"){
+      SetCategoryId(1)
+    }
+    else if (category === "Energy and Power Generation"){
+      SetCategoryId(2)
+    }
+    else if (category === "Transportation"){
+      SetCategoryId(3)
+    }
+    else if (category === "Forestry and Land Use"){
+      SetCategoryId(4)
+    }
+    else if (category === "Buildings and Construction"){
+      SetCategoryId(5)
+    }
+    else if (category === "Agriculture"){
+      SetCategoryId(6)
+    }
+  }
+
   async function MintSBTs() {
+
+    // compareCategory();
     // Perform the minting operation here
     // Set Minting state to true while minting is in progress
 
@@ -81,7 +106,7 @@ const VerifyOrganizationForm = (props) => {
           CarbonCredit,
           description,
           dateString,
-          1
+          CategoryId,
         ]);
   
         // Prepare the transaction object
@@ -110,16 +135,6 @@ const VerifyOrganizationForm = (props) => {
       console.error('Error executing transaction:', error);
     }
 
-    // setMinting(true);
-
-    // // Simulate a delay of 3 seconds before setting Minting state to false
-    // setTimeout(() => {
-    //   setMinting(false);
-    //   setToMintCarbon(true);
-    // }, 3000);
-
-    // MintCarbon();
-    // setToMintCarbon(true);
   }
 
   async function MintCarbon(){
@@ -141,7 +156,7 @@ const VerifyOrganizationForm = (props) => {
         // Prepare the transaction data for the mint function
         const mintFunctionData = contractInstanceCarbon.interface.encodeFunctionData('mint', [
           address,
-          1,
+          CategoryId,
           CarbonCredit,
           ethers.constants.HashZero,
         ]);
@@ -171,11 +186,6 @@ const VerifyOrganizationForm = (props) => {
       console.error('Error executing transaction:', error);
     }
 
-    // setMintingCarbon(true);
-
-    // setTimeout(() => {
-    //   setMintingCarbon(false);
-    // }, 3000);
 
   }
 
@@ -250,6 +260,7 @@ const VerifyOrganizationForm = (props) => {
     loadWallet();
 
     if (toMintSBT) {
+      // compareCategory();
       MintSBTs();
       setToMintSBT(false);
     }
@@ -259,7 +270,7 @@ const VerifyOrganizationForm = (props) => {
       setToMintCarbon(false);
     }
 
-  }, [toMintSBT, toMintCarbon])
+  }, [toMintSBT, toMintCarbon, category])
 
   if (isLoading) {
     // Render the loading page while isLoading is true
@@ -311,12 +322,12 @@ const VerifyOrganizationForm = (props) => {
           style={{ fontSize: '15px', fontWeight: 'bold' }}
         >
           <option value="">Select Category</option>
-          <option value="Category 1">Waste Management</option>
-          <option value="Category 2">Energy and Power Generation</option>
-          <option value="Category 3">Transportation</option>
-          <option value="Category 4">Forestry and Land Use</option>
-          <option value="Category 5">Buildings and Construction</option>
-          <option value="Category 6">Agriculture</option>
+          <option value="Waste Management">Waste Management</option>
+          <option value="Energy and Power Generation">Energy and Power Generation</option>
+          <option value="Transportation">Transportation</option>
+          <option value="Forestry and Land Use">Forestry and Land Use</option>
+          <option value="Buildings and Construction">Buildings and Construction</option>
+          <option value="Agriculture">Agriculture</option>
         </select>
       </div>
       <div>

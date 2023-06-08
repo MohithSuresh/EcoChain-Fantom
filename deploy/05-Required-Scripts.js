@@ -2,8 +2,6 @@
 // require("dotenv").config();
 // const { assert, expect } = require("chai");
 
-
-
 // module.exports = async ({ getNamedAccounts, deployments }) => {
 //   let rr = 200_000,
 //     id = 1; //9007000000000001~= 2**53 is the limit for id;
@@ -88,7 +86,6 @@
 // };
 // module.exports.tags = ["all", "deployScripts"];
 
-
 const { network, ethers } = require("hardhat");
 require("dotenv").config();
 const { assert, expect } = require("chai");
@@ -102,9 +99,9 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   _depositAmount = ethers.utils.parseEther("100");
   _sellAmount = 6;
   const SENT_AMOUNT = ethers.utils.parseEther("300000");
-
   const [deployer] = await ethers.getSigners();
-  //   const { deployer } = await getNamedAccounts();
+
+  // const { deployer } = await getNamedAccounts();
   //   const deployer =
   //     process.env.PRIVATE_KEY ||
   //     "0x11ee3108a03081fe260ecdc106554d09d9d1209bcafd46942b10e02943effc4a";
