@@ -2,6 +2,20 @@
 
 EcoChain is a transformative blockchain-based platform for the carbon credits marketplace. It leverages blockchain's transparency and smart contract efficiency to ensure verifiable, secure transactions. Our unique model offers standardized, industry-specific carbon credits on a unified trading platform, enhancing price transparency and market accessibility. EcoChain aims to propel the carbon market forward and drive global sustainability. Join us in our journey to streamline the carbon market and accelerate the world's transition towards sustainable development!
 
+# Technologies Used
+
+Several advanced technologies have been utilised in this project to provide a seamless and efficient system for carbon credits certification and trading:
+
+- **Soul-Bound Tokens (SBT)**: We used Soul-Bound Tokens as a verifiable certification system for carbon credits. This mechanism enhances the transparency and reliability in the carbon credits market.
+
+- **Bancor Formula**: We have implemented a Decentralized Exchange (DEX) using the Bancor formula. This DEX houses liquidity pools, enabling efficient trading of carbon credit tokens.
+
+- **Chainlink**: We used Chainlink functions for burning SBT (used as a carbon credit issue certificate) and minting the appropriate type and amount of carbon credit tokens for that account. This functionality helps maintain a fair and balanced carbon credits ecosystem.
+
+- **ERC1155 Tokens**: Different types of carbon credit tokens are maintained using the ERC1155 token standard. This multi-token standard allows us to efficiently manage, transfer, and trade a variety of carbon credits within a single contract.
+
+- **ERC20 Sustainability Coin**: We are using the ERC20 Sustainability Coin as the platform's native token. This token serves several functions, including incentivizing specific activities and facilitating token swaps.
+
 # Use the Hosted Site
 
 To fully leverage the functionality of EcoChain, you need to import a Metamask account using a provided private key. This gives you access to operations like swapping tokens, minting new tokens, and creating new institutes and companies.
@@ -78,7 +92,6 @@ Before proceeding, ensure that you have [MetaMask](https://metamask.io/) install
 
    This will install all necessary packages listed in the `package.json` file.
 
-
 5. **Install dependencies in the dex directory**: Now, navigate to the dex directory and run the `npm install` command again:
 
    ```shell
@@ -125,63 +138,68 @@ Remember to replace the PRIVATE_KEY and ACCOUNT_ADDRESS in your `.env` file with
 
 ## Running the project after deploying new smart contracts
 
-1. **Import your correct Ethereum node URL and contract address**: 
-   Inside `dex/src/utils` import the correct Ethereum node URL and contract address after deploying smart contracts. If you don't wish to deploy contract, you don't need to make changes to the code, things are already deployed but if you want to deploy on your own and test then follow these below steps:
+1.  **Import your correct Ethereum node URL and contract address**:
+    Inside `dex/src/utils` import the correct Ethereum node URL and contract address after deploying smart contracts. If you don't wish to deploy contract, you don't need to make changes to the code, things are already deployed but if you want to deploy on your own and test then follow these below steps:
 
-   For carbonCredit.js
-   ```
-    const getCarbonCreditContractInstance = async () => {
-    const provider = new ethers.providers.JsonRpcProvider('<Ethereum node URL>');
+    For carbonCredit.js
 
-    const contractABI = require('../contracts/CarbonCredits.json').abi;
-    const contractAddress = '<Actual address of deployed contract CarbonCredits>';
+    ```
+     const getCarbonCreditContractInstance = async () => {
+     const provider = new ethers.providers.JsonRpcProvider('<Ethereum node URL>');
 
-    const contractInstance = new ethers.Contract(contractAddress, contractABI, provider);
+     const contractABI = require('../contracts/CarbonCredits.json').abi;
+     const contractAddress = '<Actual address of deployed contract CarbonCredits>';
 
-    return contractInstance;
-   };
+     const contractInstance = new ethers.Contract(contractAddress, contractABI, provider);
 
-   ```
+     return contractInstance;
+    };
 
-         For sbtEthers.js
+    ```
 
-   ```
-    const getCarbonCreditContractInstance = async () => {
-    const provider = new ethers.providers.JsonRpcProvider('<Ethereum node URL>');
+          For sbtEthers.js
 
-    const contractABI = require('../contracts/SbtConvertible.json').abi;
-    const contractAddress = '<Actual address of deployed contract SbtConvertible>';
+    ```
+     const getCarbonCreditContractInstance = async () => {
+     const provider = new ethers.providers.JsonRpcProvider('<Ethereum node URL>');
 
-    const contractInstance = new ethers.Contract(contractAddress, contractABI, provider);
+     const contractABI = require('../contracts/SbtConvertible.json').abi;
+     const contractAddress = '<Actual address of deployed contract SbtConvertible>';
 
-    return contractInstance;
-   };
+     const contractInstance = new ethers.Contract(contractAddress, contractABI, provider);
 
-   ```
+     return contractInstance;
+    };
 
-         For ethers.js
-         
-   ```
-    const getCarbonCreditContractInstance = async () => {
-    const provider = new ethers.providers.JsonRpcProvider('<Ethereum node URL>');
+    ```
 
-    const contractABI = require('../contracts/CarbonCreditDEX.json').abi;
-    const contractAddress = '<Actual address of deployed contract CarbonCreditDEX>';
+          For ethers.js
 
-    const contractInstance = new ethers.Contract(contractAddress, contractABI, provider);
 
-    return contractInstance;
-   };
+    ```
+     const getCarbonCreditContractInstance = async () => {
+     const provider = new ethers.providers.JsonRpcProvider('<Ethereum node URL>');
 
-2. **Install dependencies**:
+     const contractABI = require('../contracts/CarbonCreditDEX.json').abi;
+     const contractAddress = '<Actual address of deployed contract CarbonCreditDEX>';
 
-   ```
-   cd dex/
-   npm install
-   ```
-3. **Running the project**:
-   ```
-   npm start
-   ```
+     const contractInstance = new ethers.Contract(contractAddress, contractABI, provider);
+
+     return contractInstance;
+    };
+
+    ```
+
+2.  **Install dependencies**:
+
+    ```
+    cd dex/
+    npm install
+    ```
+
+3.  **Running the project**:
+    ```
+    npm start
+    ```
 
 Enjoy building with EcoChain!
