@@ -9,8 +9,10 @@ contract Institutes {
     }
     address private owner;
     uint256 institutes_count;
+    // uint256 active_institutes_count;
 
     mapping(address => Institute) internal institutes;
+    address[] internal institutes_list;
 
     constructor() {
         owner = msg.sender;
@@ -25,6 +27,7 @@ contract Institutes {
         require(owner == msg.sender, "No sufficient right");
         Institute memory _institute = Institute(name, description, true);
         institutes[institute_adress] = _institute;
+        institutes_list.push(institute_adress);
         institutes_count++;
     }
 
@@ -32,6 +35,16 @@ contract Institutes {
         require(owner == msg.sender, "No sufficient right");
         institutes[institute_adress].active = false;
         institutes_count--;
+    }
+
+    function instituteInfo(
+        address institute_adress
+    ) external view returns (Institute memory) {
+        return institutes[institute_adress];
+    }
+
+    function instituteList() external view returns (address[] memory) {
+        return institutes_list;
     }
 
     function instituteCount() public view returns (uint256) {

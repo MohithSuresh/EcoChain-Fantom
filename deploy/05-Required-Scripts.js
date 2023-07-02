@@ -167,12 +167,36 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     .connect(deployer)
     .addInstitute(
       "Ecochain",
-      "carbo Credits Verification Team",
+      "Carbon Credits Verification Team",
       deployer.address
     );
   let result = await sbtConvertible
     .connect(deployer)
     .is_institute(deployer.address);
   console.log("is_institute :", result);
+
+  await sbtConvertible
+    .connect(deployer)
+    .addInstitute(
+      "Environmental Protection Agency",
+      "United States of America. The EPA is a US federal agency that protects human health and the environment. It enforces environmental regulations, conducts research, and promotes sustainability to address pollution and climate change.",
+      deployer.address
+    );
+  let result2 = await sbtConvertible
+    .connect(deployer)
+    .is_institute(deployer.address);
+  console.log("is_institute :", result2);
+
+  await sbtConvertible
+    .connect(deployer)
+    .addInstitute(
+      "Environmental Protection Agency",
+      "United States of America. The EPA is a US federal agency that protects human health and the environment. It enforces environmental regulations, conducts research, and promotes sustainability to address pollution and climate change.",
+      deployer.address
+    );
+  let result3 = await sbtConvertible
+    .connect(deployer)
+    .is_institute(deployer.address);
+  console.log("is_institute :", result3);
 };
 module.exports.tags = ["all", "deployScripts"];

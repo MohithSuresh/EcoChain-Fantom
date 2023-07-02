@@ -6,6 +6,10 @@ require("@nomiclabs/hardhat-ethers");
 const MUMBAI_RPC_URL =
   process.env.MUMBAI_RPC_URL ||
   "https://eth-mainnet.alchemyapi.io/v2/your-api-key";
+
+const AURORA_TESTNET_PRIVATE_KEY = process.env.AURORA_TESTNET_PRIVATE_KEY;
+const AURORA_RPC_URL = process.env.AURORA_RPC_URL;
+
 const SEPOLIA_RPC_URL =
   process.env.SEPOLIA_RPC_URL ||
   "https://eth-sepolia.g.alchemy.com/v2/SqB6tlKLNG4Vw5_FtTfKtdnoUJwjblk-";
@@ -38,6 +42,16 @@ module.exports = {
       accounts: [PRIVATE_KEY],
       chainId: 11155111,
       blockConfirmations: 6,
+    },
+    aurora_testnet: {
+      url: "https://testnet.aurora.dev",
+      accounts: [`0x${PRIVATE_KEY}`],
+      chainId: 1313161555,
+    },
+    aurora_mainnet: {
+      url: AURORA_RPC_URL,
+      accounts: [`0x${PRIVATE_KEY}`],
+      chainId: 1313161554,
     },
   },
   namedAccounts: {
