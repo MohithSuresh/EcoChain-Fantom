@@ -180,11 +180,11 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     .addInstitute(
       "Environmental Protection Agency",
       "United States of America. The EPA is a US federal agency that protects human health and the environment. It enforces environmental regulations, conducts research, and promotes sustainability to address pollution and climate change.",
-      deployer.address
+      "0x7fbaa97e54f40386500dbb4558dc237d93d8f136"
     );
   let result2 = await sbtConvertible
     .connect(deployer)
-    .is_institute(deployer.address);
+    .is_institute("0x7fbaa97e54f40386500dbb4558dc237d93d8f136");
   console.log("is_institute :", result2);
 
   await sbtConvertible
@@ -192,11 +192,11 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     .addInstitute(
       "Environmental Protection Agency",
       "United States of America. The EPA is a US federal agency that protects human health and the environment. It enforces environmental regulations, conducts research, and promotes sustainability to address pollution and climate change.",
-      deployer.address
+      "0x030fbce8c64a1231c8c503978980e0b1a3209fed"
     );
   let result3 = await sbtConvertible
     .connect(deployer)
-    .is_institute(deployer.address);
+    .is_institute("0x030fbce8c64a1231c8c503978980e0b1a3209fed");
   console.log("is_institute :", result3);
 };
 module.exports.tags = ["all", "deployScripts"];
