@@ -53,6 +53,11 @@ module.exports = {
       accounts: [`0x${PRIVATE_KEY}`],
       chainId: 1313161554,
     },
+    fantom_testnet: {
+      url: "https://rpc.testnet.fantom.network",
+      accounts: [`0x${PRIVATE_KEY}`],
+      chainId: 4002,
+    },
   },
   namedAccounts: {
     deployer: {
