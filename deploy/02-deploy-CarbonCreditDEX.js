@@ -1,4 +1,6 @@
 const { network } = require("hardhat");
+const { verify } = require("../utils/verify");
+
 require("dotenv").config();
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
@@ -18,6 +20,12 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     waitConfirmations: network.config.blockConfirmations || 1,
   });
+
+  await verify(carbonCreditDEX.address, [
+    _carbonCreditsAddress,
+    _ownerAddress,
+    _sustainabilityCoinAddress,
+  ]);
 
   log(`CarbonCreditDEX deployed at ${carbonCreditDEX.address}`);
 };

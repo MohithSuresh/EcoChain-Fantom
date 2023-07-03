@@ -1,4 +1,6 @@
 const { network } = require("hardhat");
+const { verify } = require("../utils/verify");
+
 require("dotenv").config();
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
@@ -10,6 +12,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     log: true,
     args: [],
   });
+  await verify(sustainabilityCoin.address, []);
 
   console.log("SustainabilityCoin is deployed at ", sustainabilityCoin.address);
 };

@@ -1,4 +1,6 @@
 const { network } = require("hardhat");
+const { verify } = require("../utils/verify");
+
 require("dotenv").config();
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
@@ -11,6 +13,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     log: true,
     args: [oracleAddress],
   });
+
+  await verify(sbtConvertible.address, [oracleAddress]);
 
   console.log("SbtConvertible is deployed at ", sbtConvertible.address);
 };

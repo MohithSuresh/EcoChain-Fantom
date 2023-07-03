@@ -2,6 +2,7 @@ require("@nomicfoundation/hardhat-toolbox");
 require("hardhat-deploy");
 require("dotenv").config();
 require("@nomiclabs/hardhat-ethers");
+require("@nomiclabs/hardhat-etherscan");
 
 const MUMBAI_RPC_URL =
   process.env.MUMBAI_RPC_URL ||
@@ -9,6 +10,7 @@ const MUMBAI_RPC_URL =
 
 const AURORA_TESTNET_PRIVATE_KEY = process.env.AURORA_TESTNET_PRIVATE_KEY;
 const AURORA_RPC_URL = process.env.AURORA_RPC_URL;
+const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || "";
 
 const SEPOLIA_RPC_URL =
   process.env.SEPOLIA_RPC_URL ||
@@ -19,6 +21,9 @@ const PRIVATE_KEY =
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   solidity: "0.8.17",
+  etherscan: {
+    apiKey: ETHERSCAN_API_KEY,
+  },
   networks: {
     hardhat: {
       chainId: 31337,

@@ -235,5 +235,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     .connect(deployer)
     .is_company(RANDOM_ADDRESS_2);
   console.log("is_company :", result5);
+
+  let result7 = await sbtPermanent.connect(deployer).companyList();
+  console.log("companyList :", result7);
 };
 module.exports.tags = ["all", "deployScripts"];
