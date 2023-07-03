@@ -100,6 +100,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   _sellAmount = 6;
   const SENT_AMOUNT = ethers.utils.parseEther("300000");
   const [deployer] = await ethers.getSigners();
+  const RANDOM_ADDRESS_1 = process.env.RANDOM_ADDRESS_1;
+  const RANDOM_ADDRESS_2 = process.env.RANDOM_ADDRESS_2;
 
   // const { deployer } = await getNamedAccounts();
   //   const deployer =
@@ -111,6 +113,12 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   const carbonCreditDEX = await ethers.getContractAt(
     carbonCreditDEXDeployment.abi,
     carbonCreditDEXDeployment.address
+  );
+
+  const sbtPermanentDeployment = await deployments.get("SbtPermanent");
+  const sbtPermanent = await ethers.getContractAt(
+    sbtPermanentDeployment.abi,
+    sbtPermanentDeployment.address
   );
 
   const sbtConvertibleDeployment = await deployments.get("SbtConvertible");
@@ -143,6 +151,11 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     deployer.address,
     carbonCreditDEX.address
   );
+
+  let result6 = await sbtPermanent
+    .connect(deployer)
+    .is_company(RANDOM_ADDRESS_1);
+  console.log("is_company :", result6);
 
   console.log("allowed", allowed.toString());
   for (let i = 1; i < 7; i++) {
@@ -180,23 +193,47 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     .addInstitute(
       "Environmental Protection Agency",
       "United States of America. The EPA is a US federal agency that protects human health and the environment. It enforces environmental regulations, conducts research, and promotes sustainability to address pollution and climate change.",
-      "0x7fbaa97e54f40386500dbb4558dc237d93d8f136"
+      RANDOM_ADDRESS_1
     );
   let result2 = await sbtConvertible
     .connect(deployer)
-    .is_institute("0x7fbaa97e54f40386500dbb4558dc237d93d8f136");
+    .is_institute(RANDOM_ADDRESS_1);
   console.log("is_institute :", result2);
 
   await sbtConvertible
     .connect(deployer)
     .addInstitute(
-      "Environmental Protection Agency",
-      "United States of America. The EPA is a US federal agency that protects human health and the environment. It enforces environmental regulations, conducts research, and promotes sustainability to address pollution and climate change.",
-      "0x030fbce8c64a1231c8c503978980e0b1a3209fed"
+      "Environment Agency",
+      "United Kingdom. The Environment Agency is a regulatory body in the UK. It works to protect and improve the environment, including managing flood risks, regulating industries, and promoting sustainable practices for a greener future.",
+      RANDOM_ADDRESS_2
     );
   let result3 = await sbtConvertible
     .connect(deployer)
-    .is_institute("0x030fbce8c64a1231c8c503978980e0b1a3209fed");
+    .is_institute(RANDOM_ADDRESS_2);
   console.log("is_institute :", result3);
+
+  await sbtPermanent
+    .connect(deployer)
+    .addCompany(
+      "Tesla",
+      "American electric vehicle and clean energy company founded by Elon Musk, JB Straubel, Martin Eberhard, Marc Tarpenning, and Ian Wright. It was established in 2003 with the goal of accelerating the world's transition to sustainable energy.",
+      RANDOM_ADDRESS_1
+    );
+  let result4 = await sbtPermanent
+    .connect(deployer)
+    .is_company(RANDOM_ADDRESS_1);
+  console.log("is_company :", result4);
+
+  await sbtPermanent
+    .connect(deployer)
+    .addCompany(
+      "Apple",
+      "American multinational technology company that specializes in consumer electronics, computer software, and online services. It is considered one of the Big Five companies in the U.S. information technology industry, along with Amazon, Google, Microsoft, and Facebook.",
+      RANDOM_ADDRESS_2
+    );
+  let result5 = await sbtPermanent
+    .connect(deployer)
+    .is_company(RANDOM_ADDRESS_2);
+  console.log("is_company :", result5);
 };
 module.exports.tags = ["all", "deployScripts"];

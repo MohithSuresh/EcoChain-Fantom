@@ -9,6 +9,7 @@ contract Companies {
     }
     address private owner;
     uint256 companies_count;
+    address[] internal companies_list;
 
     mapping(address => Company) internal companies;
 
@@ -24,6 +25,7 @@ contract Companies {
     ) external {
         Company memory _company = Company(name, description, true);
         companies[company_adress] = _company;
+        companies_list.push(company_adress);
         companies_count++;
     }
 
@@ -41,6 +43,10 @@ contract Companies {
 
     function companyCount() public view returns (uint256) {
         return companies_count;
+    }
+
+    function companyList() external view returns (address[] memory) {
+        return companies_list;
     }
 
     modifier onlyCompany() {
