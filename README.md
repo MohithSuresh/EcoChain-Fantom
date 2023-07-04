@@ -10,7 +10,7 @@ Several advanced technologies have been utilised in this project to provide a se
 
 - **Bancor Formula**: We have implemented a Decentralized Exchange (DEX) using the Bancor formula. This DEX houses liquidity pools, enabling efficient trading of carbon credit tokens.
 
-- **Chainlink**: We used Chainlink functions for burning SBT (used as a carbon credit issue certificate) and minting the appropriate type and amount of carbon credit tokens for that account. This functionality helps maintain a fair and balanced carbon credits ecosystem.
+- **Oracle**: We used Oracle functions for burning SBT (used as a carbon credit issue certificate) and minting the appropriate type and amount of carbon credit tokens for that account. This functionality helps maintain a fair and balanced carbon credits ecosystem.
 
 - **ERC1155 Tokens**: Different types of carbon credit tokens are maintained using the ERC1155 token standard. This multi-token standard allows us to efficiently manage, transfer, and trade a variety of carbon credits within a single contract.
 
@@ -128,7 +128,7 @@ Before running any testing or deploying commands, ensure that your `.env` file i
 2. **Deploying Smart Contracts on the Sepolia Testnet**: If you want to deploy the smart contracts on the Sepolia Testnet, you need to run the following command:
 
    ```shell
-   npx hardhat deploy --network sepolia
+   npx hardhat deploy --network fantom_testnet
    ```
 
    This will deploy the smart contracts on the Sepolia Testnet. Please ensure that you have the necessary testnet Ether for deployment.
@@ -145,7 +145,7 @@ Remember to replace the PRIVATE_KEY and ACCOUNT_ADDRESS in your `.env` file with
 
     ```
      const getCarbonCreditContractInstance = async () => {
-     const provider = new ethers.providers.JsonRpcProvider('<Ethereum node URL>');
+     const provider = new ethers.providers.JsonRpcProvider('<EVM node URL>');
 
      const contractABI = require('../contracts/CarbonCredits.json').abi;
      const contractAddress = '<Actual address of deployed contract CarbonCredits>';
@@ -161,7 +161,7 @@ Remember to replace the PRIVATE_KEY and ACCOUNT_ADDRESS in your `.env` file with
 
     ```
      const getCarbonCreditContractInstance = async () => {
-     const provider = new ethers.providers.JsonRpcProvider('<Ethereum node URL>');
+     const provider = new ethers.providers.JsonRpcProvider('<EVM node URL>');
 
      const contractABI = require('../contracts/SbtConvertible.json').abi;
      const contractAddress = '<Actual address of deployed contract SbtConvertible>';
@@ -178,7 +178,7 @@ Remember to replace the PRIVATE_KEY and ACCOUNT_ADDRESS in your `.env` file with
 
     ```
      const getCarbonCreditContractInstance = async () => {
-     const provider = new ethers.providers.JsonRpcProvider('<Ethereum node URL>');
+     const provider = new ethers.providers.JsonRpcProvider('<EVM node URL>');
 
      const contractABI = require('../contracts/CarbonCreditDEX.json').abi;
      const contractAddress = '<Actual address of deployed contract CarbonCreditDEX>';
